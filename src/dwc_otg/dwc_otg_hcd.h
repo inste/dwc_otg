@@ -37,7 +37,7 @@
 #include <linux/list.h>
 #include <linux/usb.h>
 #include <linux/version.h>
-#include <../drivers/usb/core/hcd.h>
+#include <linux/usb/hcd.h>
 
 struct lm_device;
 struct dwc_otg_device;
@@ -441,7 +441,6 @@ extern void dwc_otg_hcd_stop(struct usb_hcd *hcd);
 extern int dwc_otg_hcd_get_frame_number(struct usb_hcd *hcd);
 extern void dwc_otg_hcd_free(struct usb_hcd *hcd);
 extern int dwc_otg_hcd_urb_enqueue(struct usb_hcd *hcd,
-				   struct usb_host_endpoint *ep,
 				   struct urb *urb,
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,20)
 				   int mem_flags
@@ -451,9 +450,8 @@ extern int dwc_otg_hcd_urb_enqueue(struct usb_hcd *hcd,
 				  );
 extern int dwc_otg_hcd_urb_dequeue(struct usb_hcd *hcd,
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,20)
-				   struct usb_host_endpoint *ep,
 #endif
-				   struct urb *urb);
+				   struct urb *urb, int status);
 extern void dwc_otg_hcd_endpoint_disable(struct usb_hcd *hcd,
 					 struct usb_host_endpoint *ep);
 extern irqreturn_t dwc_otg_hcd_irq(struct usb_hcd *hcd
@@ -530,7 +528,7 @@ static inline dwc_otg_qh_t *dwc_otg_hcd_qh_alloc(void)
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,20)
 extern dwc_otg_qtd_t *dwc_otg_hcd_qtd_create(struct urb *urb, int mem_flags);
 #else
-extern dwc_otg_qtd_t *dwc_otg_hcd_qtd_create(struct urb *urb, gfp_t mem_flags);
+extern dwc_otg_qtd_t *dwc_otg_hcd_qtd_create(struct urb *urb);
 #endif
 extern void dwc_otg_hcd_qtd_init(dwc_otg_qtd_t *qtd, struct urb *urb);
 extern int dwc_otg_hcd_qtd_add(dwc_otg_qtd_t *qtd, dwc_otg_hcd_t *dwc_otg_hcd);
@@ -540,10 +538,10 @@ extern int dwc_otg_hcd_qtd_add(dwc_otg_qtd_t *qtd, dwc_otg_hcd_t *dwc_otg_hcd);
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,20)
 static inline dwc_otg_qtd_t *dwc_otg_hcd_qtd_alloc(int mem_flags)
 #else
-static inline dwc_otg_qtd_t *dwc_otg_hcd_qtd_alloc(gfp_t mem_flags)
+static inline dwc_otg_qtd_t *dwc_otg_hcd_qtd_alloc(void)
 #endif
 {
-	return (dwc_otg_qtd_t *) kmalloc(sizeof(dwc_otg_qtd_t), mem_flags);
+	return (dwc_otg_qtd_t *) kmalloc(sizeof(dwc_otg_qtd_t), GFP_KERNEL);
 }
 
 /** Frees the memory for a QTD structure.  QTD should already be removed from

@@ -653,12 +653,12 @@ void dwc_otg_hcd_qh_deactivate(dwc_otg_hcd_t *hcd, dwc_otg_qh_t *qh, int sched_n
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,20)
 dwc_otg_qtd_t *dwc_otg_hcd_qtd_create (struct urb *urb, int mem_flags)
 #else
-dwc_otg_qtd_t *dwc_otg_hcd_qtd_create (struct urb *urb, gfp_t mem_flags)
+dwc_otg_qtd_t *dwc_otg_hcd_qtd_create (struct urb *urb)
 #endif
 {
 	dwc_otg_qtd_t *qtd;
 
-	qtd = dwc_otg_hcd_qtd_alloc (mem_flags);
+	qtd = dwc_otg_hcd_qtd_alloc ();
 	if (qtd == NULL) {
 		return NULL;
 	}

@@ -771,7 +771,7 @@ static int dwc_otg_driver_probe(struct lm_device *lmdev)
 	DWC_DEBUGPL(DBG_CIL, "registering (common) handler for irq%d\n",
 		    lmdev->irq);
 	retval = request_irq(lmdev->irq, dwc_otg_common_irq,
-			     SA_SHIRQ, "dwc_otg", dwc_otg_device);
+			     IRQF_SHARED, "dwc_otg", dwc_otg_device);
 	if (retval) {
 		DWC_ERROR("request of irq%d failed\n", lmdev->irq);
 		retval = -EBUSY;
