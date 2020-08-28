@@ -531,6 +531,7 @@ DWC_OTG_DEVICE_ATTR_BITFIELD_RW(srpcapable,&(otg_dev->core_if->core_global_regs-
 //DWC_OTG_DEVICE_ATTR_BITFIELD_RW(bussuspend,&(otg_dev->core_if->core_global_regs->gotgctl),(1<<8),8,"Mode");
 DWC_OTG_DEVICE_ATTR_BITFIELD_RO(busconnected,otg_dev->core_if->host_if->hprt0,0x01,0,"Bus Connected");
 
+DWC_OTG_DEVICE_ATTR_REG32_RW(pcgcctl,otg_dev->core_if->pcgcctl,"PCGCCTL");
 DWC_OTG_DEVICE_ATTR_REG32_RW(gotgctl,&(otg_dev->core_if->core_global_regs->gotgctl),"GOTGCTL");
 DWC_OTG_DEVICE_ATTR_REG32_RW(gusbcfg,&(otg_dev->core_if->core_global_regs->gusbcfg),"GUSBCFG");
 DWC_OTG_DEVICE_ATTR_REG32_RW(grxfsiz,&(otg_dev->core_if->core_global_regs->grxfsiz),"GRXFSIZ");
@@ -1016,6 +1017,7 @@ void dwc_otg_attr_create (struct lm_device *lmdev)
 	error = device_create_file(&lmdev->dev, &dev_attr_hcd_frrem);
 	error = device_create_file(&lmdev->dev, &dev_attr_rd_reg_test);
 	error = device_create_file(&lmdev->dev, &dev_attr_wr_reg_test);
+	error = device_create_file(&lmdev->dev, &dev_attr_pcgcctl);
 }
 
 /**
@@ -1052,4 +1054,5 @@ void dwc_otg_attr_remove (struct lm_device *lmdev)
 	device_remove_file(&lmdev->dev, &dev_attr_hcd_frrem);
 	device_remove_file(&lmdev->dev, &dev_attr_rd_reg_test);
 	device_remove_file(&lmdev->dev, &dev_attr_wr_reg_test);
+	device_remove_file(&lmdev->dev, &dev_attr_pcgcctl);
 }

@@ -563,8 +563,13 @@ int dwc_otg_hcd_init(struct lm_device *lmdev)
 
 	dwc_otg_hcd->otg_dev = otg_dev;
 
+#if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,35)
+	DWC_DEBUGPL(DBG_HCD, "DWC OTG HCD Initialized HCD, bus=%s, usbbus=%d\n",
+		    dev_name(&lmdev->dev), hcd->self.busnum);
+#else
 	DWC_DEBUGPL(DBG_HCD, "DWC OTG HCD Initialized HCD, bus=%s, usbbus=%d\n",
 		    lmdev->dev.bus_id, hcd->self.busnum);
+#endif
 
 	return 0;
 
