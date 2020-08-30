@@ -868,7 +868,7 @@ static int __init dwc_otg_driver_init(void)
 	lmdev->resource.start = RALINK_USB_OTG_BASE;
 	lmdev->resource.end = RALINK_USB_OTG_BASE + SZ_256K - 1;
 	lmdev->resource.flags = IORESOURCE_MEM;
-	lmdev->irq = RALINK_INTCTL_OTG_IRQN;
+	lmdev->irq = RALINK_INTCTL_OTG_IRQN + 8;
 	lmdev->id = 0;
 
 	lm_device_register(lmdev);
