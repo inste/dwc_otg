@@ -9,7 +9,7 @@ EXTRA_CFLAGS   += -DFAST_TRANSACTION
 #endif
 
 #ifeq ($(CONFIG_DWC_OTG_DEBUG),y)
-EXTRA_CFLAGS   += -DDEBUG
+#EXTRA_CFLAGS   += -DDEBUG
 #endif
 
 # Use one of the following flags to compile the software in host-only or
